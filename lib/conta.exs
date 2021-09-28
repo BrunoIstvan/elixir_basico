@@ -8,7 +8,11 @@ defmodule Conta do
         # converte termo para binario
         |> :erlang.term_to_binary()
         # grava no arquivo
-        File.write(@contas, binary)
+        case File.write(@contas, binary) do
+            {:enoent} -> "Cadastro realizado com sucesso"
+            {:ok} -> "Cadastro realizado com sucesso"
+            _ -> "Erro ao cadastrar conta/usuário"
+        end
     end
 
     def cadastrar(usuario) do
@@ -39,14 +43,18 @@ defmodule Conta do
 
     def buscar_contas do
         # le o conteudo do arquivo
-        {result, binary} = File.read(@contas)
-        cond do 
+        case File.read(@contas) do
             # se o arquivo nao existe, enviara um error e retornaremos nil
-            result == :error -> nil
+            {:error, error} -> 
+                IO.puts(error)
+                nil
             # se o arquivo estiver vazio, retornaremos nil
-            binary == "" -> nil
+            {:ok, ""} -> nil
             # converte o conteudo de binario para termo
-            true -> :erlang.binary_to_term(binary)
+            {:ok, binary} -> :erlang.binary_to_term(binary)
+            # result == :error -> nil
+            # binary == "" -> nil
+            # true -> :erlang.binary_to_term(binary)
         end
     end
 
