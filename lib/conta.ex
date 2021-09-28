@@ -64,13 +64,13 @@ defmodule Conta do
         [de, para]
     end
 
-    defp valida_de_para_contas(de, para) when is_binary(de) and is_binary(para) do
+    defp valida_de_para_contas(de, para) when(is_binary(de) and is_binary(para)) do
         # busca a conta de na lista de contas por email
         de = buscar_conta_por_email(de)
         para = buscar_conta_por_email(para)
         [de, para]
     end
-    defp valida_de_para_contas(de, para) when is_struct(de) and is_struct(para) do
+    defp valida_de_para_contas(de, para) when(is_struct(de) and is_struct(para)) do
         # busca a conta de na lista de contas por struct
         de = buscar_conta_por_email(de.usuario.email)
         para = buscar_conta_por_email(para.usuario.email)
@@ -87,14 +87,14 @@ defmodule Conta do
         end
     end
 
-    def sacar(conta, valor) when is_binary(conta) do
+    def sacar(conta, valor) when(is_binary(conta)) do
         conta = buscar_conta_por_email(conta)
         cond do 
             valida_saldo(conta.saldo, valor) -> {:error, "Saldo insuficiente!"}
             true -> executar_operacao(conta, conta.saldo - valor)
         end
     end
-    def sacar(conta, valor) when is_struct(conta) do
+    def sacar(conta, valor) when(is_struct(conta)) do
         conta = buscar_conta_por_email(conta.usuario.email)
         cond do 
             valida_saldo(conta.saldo, valor) -> {:error, "Saldo insuficiente!"}
@@ -102,7 +102,7 @@ defmodule Conta do
         end
     end
 
-    def depositar(conta, valor) when is_binary(conta) do
+    def depositar(conta, valor) when(is_binary(conta)) do
         # busca a conta por email
         conta = buscar_conta_por_email(conta)
         cond do 
@@ -110,7 +110,7 @@ defmodule Conta do
             true -> executar_operacao(conta, conta.saldo + valor)
         end
     end
-    def depositar(conta, valor) when is_struct(conta) do
+    def depositar(conta, valor) when(is_struct(conta)) do
         # busca a conta por struct
         conta = buscar_conta_por_email(conta.usuario.email)
         cond do 

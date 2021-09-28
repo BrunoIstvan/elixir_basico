@@ -1,14 +1,13 @@
-defmodule MeuModulo.Tabuada do
+defmodule Tabuada do
     
-    def tabuada(mult) do
-        tabuada(mult, 0, [])
+    def calcula(mult) when(is_integer(mult)) do
+        tabuada(mult, 0)
     end
     
-    defp tabuada(_, 11, lista), do: lista
-    defp tabuada(mult, prod, lista) do
+    defp tabuada(_, 11), do: []
+    defp tabuada(mult, prod) do
         IO.puts("#{mult} x #{prod} = #{mult * prod} ")
-        lista = lista ++ [mult * prod]
-        tabuada(mult, prod + 1, lista)
+        [mult * prod] ++ tabuada(mult, prod + 1)
     end
 
 end
